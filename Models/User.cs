@@ -27,4 +27,16 @@ namespace logreg.Models
         [DataType(DataType.Password)]
         public string Confirm { get; set; }
     }
+
+    public class Login : BaseEntity
+    {
+        [Display(Name = "Email")]
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Display(Name = "Password")]
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
 }

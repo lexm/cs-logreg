@@ -14,17 +14,6 @@ namespace logreg.Controllers
         [Route("")]
         public IActionResult Reg()
         {
-            // User NewUser = new User
-            // {
-            //     FirstName = "First",
-            //     LastName = "Last",
-            //     Email = "email@example.com",
-            //     Password = "password",
-            //     Confirm = "password",
-            // };
-
-            // TryValidateModel(NewUser);
-            // ViewBag.errors = ModelState.Values;
             return View();
         }
 
@@ -52,6 +41,7 @@ namespace logreg.Controllers
                 return View("~/Views/User/Reg.cshtml", user);
             }
         }
+
         [HttpGet]
         [Route("in")]
         public IActionResult YouAreIn()

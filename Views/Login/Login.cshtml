@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "About";
+}
+@using logreg.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model logreg.Models.Login
+
+<form asp-controller="Login" asp-action="login" method="POST">
+    <h4>
+        <label asp-for="Email"></label>
+        <input asp-for="Email">
+        <span asp-validation-for="Email"></span>
+    </h4>
+    <h4>
+        <label asp-for="Password"></label>
+        <input asp-for="Password">
+        <span asp-validation-for="Password"></span>
+    </h4>
+    <input type="submit" value="Register">
+</form>
