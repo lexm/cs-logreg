@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using DbConnection;
 using logreg.Models;
 
 namespace logreg.Controllers
@@ -13,17 +14,17 @@ namespace logreg.Controllers
         [Route("")]
         public IActionResult Reg()
         {
-            User NewUser = new User
-            {
-                FirstName = "First",
-                LastName = "Last",
-                Email = "email@example.com",
-                Password = "password",
-                Confirm = "password",
-            };
+            // User NewUser = new User
+            // {
+            //     FirstName = "First",
+            //     LastName = "Last",
+            //     Email = "email@example.com",
+            //     Password = "password",
+            //     Confirm = "password",
+            // };
 
-            TryValidateModel(NewUser);
-            ViewBag.errors = ModelState.Values;
+            // TryValidateModel(NewUser);
+            // ViewBag.errors = ModelState.Values;
             return View();
         }
 
@@ -33,6 +34,16 @@ namespace logreg.Controllers
         {
             if(ModelState.IsValid)
             {
+                string FirstName = user.FirstName;
+                System.Console.WriteLine(FirstName);
+                string LastName = user.LastName;
+                System.Console.WriteLine(LastName);
+                string Email = user.Email;
+                System.Console.WriteLine(Email);
+                string Password = user.Password;
+                System.Console.WriteLine(Password);
+                string insQuery = string.Format("INSERT into Users (FirstName, LastName, Email, Password) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\");", FirstName, LastName, Email, Password);
+                DbConnector.Execute(insQuery);
                 return RedirectToAction("YouAreIn", user);
             }
             else
