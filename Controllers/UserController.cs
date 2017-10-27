@@ -23,20 +23,40 @@ namespace logreg.Controllers
         {
             if(ModelState.IsValid)
             {
-                string FirstName = user.FirstName;
-                System.Console.WriteLine(FirstName);
-                string LastName = user.LastName;
-                System.Console.WriteLine(LastName);
                 string Email = user.Email;
-                System.Console.WriteLine(Email);
-                string Password = user.Password;
-                System.Console.WriteLine(Password);
-                string insQuery = string.Format("INSERT into Users (FirstName, LastName, Email, Password) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\");", FirstName, LastName, Email, Password);
-                DbConnector.Execute(insQuery);
-                return RedirectToAction("YouAreIn", user);
+                string selQuery = string.Format("SELECT Password FROM Users WHERE Email = \"{0}\"", Email);
+                System.Console.WriteLine(selQuery);
+                List<Dictionary<string, object>> list = DbConnector.Query(selQuery);
+                System.Console.WriteLine(list.Count);
+                // int count = 1;
+                if(list.Count > 0)
+                {
+                    ModelState.AddModelError("Email", "This Email is already registered.");
+                    ViewBag.errors = ModelState.Values;
+                    return View("~/Views/User/Reg.cshtml", user);
+                }
+                else
+                {
+                    string FirstName = user.FirstName;
+                    string LastName = user.LastName;
+                    string Password = user.Password;
+                    string insQuery = string.Format("INSERT into Users (FirstName, LastName, Email, Password) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\");", FirstName, LastName, Email, Password);
+                    DbConnector.Execute(insQuery);
+                    return RedirectToAction("YouAreIn");
+                }
+
             }
             else
             {
+                foreach(KeyValuePair<string, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry> pair in ModelState)
+                {
+                   System.Console.WriteLine("Key is {0}, Value is {1}", pair.Key, pair.Value);
+                }
+                // foreach (Dictionary<string, object> item in ModelState)
+                // {
+                //     // System.Console.WriteLine(count);
+                //     // count++;
+                // }
                 ViewBag.errors = ModelState.Values;
                 return View("~/Views/User/Reg.cshtml", user);
             }
